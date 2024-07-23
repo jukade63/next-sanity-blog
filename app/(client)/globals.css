@@ -1,0 +1,23 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  @apply dark:bg-[#14161A] dark:text-[#e7e7e8];
+}
+img {
+  max-width: 100%;
+  margin: 0 auto;
+}
+
