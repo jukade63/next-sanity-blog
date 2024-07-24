@@ -193,9 +193,9 @@ const ptComponents = {
       const rel = !isInternalLink
         ? "noreferrer noopener"
         : undefined;
-      if(isInternalLink || hostname == 'localhost') {
+      // if(isInternalLink || hostname == 'localhost') {
         value.href = `https://next-sanity-blog-amber.vercel.app/${value.href.split("/")[3]}`
-      }
+      // }
       
       return (
         <Link href={value.href} rel={rel} className="text-amber-600 underline">
