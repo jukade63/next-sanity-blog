@@ -12,6 +12,7 @@ import { formatDistanceToNow } from "date-fns";
 import Link from "next/link";
 import CodeBlock from "@/app/components/CodeBlock";
 import { Roboto } from "next/font/google";
+import { HOSTNAME } from "@/app/utils/constants";
 
 const roboto = Roboto({ subsets: ["latin"], weight: "700" });
 
@@ -96,7 +97,6 @@ export async function generateMetadata({
 
 const SinglePost = async ({ params, searchParams }: Params) => {
   const post: Post = await getPost(params?.slug);
-  console.log(post);
 
   if (!post) {
     notFound();
@@ -188,9 +188,14 @@ const ptComponents = {
   },
   marks: {
     link: ({ children, value }: any) => {
-      const rel = !value.href.startsWith("/")
+      const isInternalLink = value?.href?.startsWith("/")
+      const rel = !isInternalLink
         ? "noreferrer noopener"
         : undefined;
+      if(isInternalLink) {
+        value.href = `${HOSTNAME}/${value.href.split("/")[1]}`
+      }
+      
       return (
         <Link href={value.href} rel={rel} className="text-amber-600 underline">
           {children}
