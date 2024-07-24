@@ -189,11 +189,12 @@ const ptComponents = {
   marks: {
     link: ({ children, value }: any) => {
       const isInternalLink = value?.href?.startsWith("/")
+      const hostname = value.href.split("/")[2]
       const rel = !isInternalLink
         ? "noreferrer noopener"
         : undefined;
-      if(isInternalLink) {
-        value.href = `${HOSTNAME}/${value.href.split("/")[1]}`
+      if(isInternalLink && hostname == 'localhost') {
+        value.href = `${HOSTNAME}/${value.href.split("/")[3]}`
       }
       
       return (
