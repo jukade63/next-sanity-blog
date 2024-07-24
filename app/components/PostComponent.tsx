@@ -39,7 +39,7 @@ const PostComponent = ({ post }: Props) => {
         </p>
         <div className="flex gap-2 justify-center items-center">
           {post?.tags?.map((tag) => (
-            <span className="text-xs font-semibold text-gray-600 py-[4px] px-[6px] rounded-full bg-sky-200">
+            <span key={tag._id} className="text-xs font-semibold text-gray-600 py-[4px] px-[6px] rounded-full bg-sky-200">
               {tag.name}
             </span>
           ))}

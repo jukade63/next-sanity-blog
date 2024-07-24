@@ -20,6 +20,7 @@ function FilterBar() {
     <div className="grid grid-cols-1 md:grid-cols-4 lg:grid-cols-6 gap-2">
       {filterData.map((filter) => (
         <div
+          key={filter}
           className={cn(
             `p-1 py-2 w-full bg-amber-600 text-white text-center rounded-full cursor-pointer text-sm ${roboto.className}`,
             filter === searchParams.get("filter") &&

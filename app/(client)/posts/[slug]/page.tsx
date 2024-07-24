@@ -133,7 +133,7 @@ const SinglePost = async ({ params, searchParams }: Params) => {
       </div>
       <div className="mt-5">
         {post?.tags?.map((tag) => (
-          <span className="mr-2 py-[6px] px-4 rounded-full text-sm bg-sky-200 dark:bg-gray-950 border dark:border-gray-900">
+          <span key={tag?._id} className="mr-2 py-[6px] px-4 rounded-full text-sm bg-sky-200 dark:bg-gray-950 border dark:border-gray-900">
             {tag.name}
           </span>
         ))}
