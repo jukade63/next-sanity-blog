@@ -6,14 +6,36 @@ import Image from "next/image";
 import { urlForImage } from "@/sanity/lib/image";
 import { DEFAULT_IMAGE_URL } from "../utils/constants";
 import { Lora } from "next/font/google";
+import { client } from "@/sanity/lib/client";
 
 const lora = Lora({ subsets: ["latin"] });
 
-interface Props {
-  latestPost: Post;
+async function getPost() {
+  const query = `
+  *[_type == "post"] | order(publishedAt desc) [0] {
+    title,
+    coverImage,
+    slug,
+    publishedAt,
+    excerpt,
+    tags[]-> {
+      _id,
+      slug,
+      name
+    },
+    category-> {
+      name,
+    }
+
+  }
+  
+  `;
+  const data = await client.fetch(query);
+  return data;
 }
 
-const Header = ({ latestPost }: Props) => {
+const Header = async () => {
+  const latestPost: Post = await getPost();
   return (
     <header className="flex gap-8 h-72 flex-col md:flex-row justify-center bg-gray-200 dark:bg-slate-300 py-8 px-4 rounded-md">
       <div className="hidden md:block">
@@ -31,7 +53,9 @@ const Header = ({ latestPost }: Props) => {
       </div>
       <div className="w-full md:w-1/3 flex flex-col">
         <Link href={`/posts/${latestPost?.slug?.current}`}>
-          <h1 className={`${lora.className} text-2xl font-bold hover:underline dark:text-gray-800`}>
+          <h1
+            className={`${lora.className} text-2xl font-bold hover:underline dark:text-gray-800`}
+          >
             {latestPost?.title}
           </h1>
         </Link>

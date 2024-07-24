@@ -44,20 +44,18 @@ export default async function Home({
 }) {
   const { filter, search } = searchParams;
 
-  const posts: Post[] = await getPosts();
-  let filteredPosts: Post[] = [];
+  let posts: Post[] = await getPosts();
 
-  filteredPosts = posts.filter((post) =>
-    post.category?.name == filter)
-  
-  if (!filter || filter === "All") {
-    filteredPosts = posts;
-  }
+  if (filter && filter !== "All") {
+    posts = posts.filter(post => post.category?.name === filter);
+  }  
+ 
   if (search) {
-    filteredPosts = posts.filter((post) =>
+    posts = posts.filter((post) =>
       post.title.toLowerCase().includes(search.toLowerCase())
     );
   }
+  const skipFirstPosts = posts?.slice(1);
 
   return (
     <>
@@ -76,12 +74,12 @@ export default async function Home({
           articles.
         </p>
       </div>
-      <Header latestPost={posts[0]} />
+      <Header />
       <div className="mt-10">
         <FilterBar />
         <div className="grid grid-template-columns-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mt-4">
-          {filteredPosts?.length > 0 &&
-            filteredPosts?.map((post) => (
+          {skipFirstPosts?.length > 0 &&
+            skipFirstPosts?.map((post) => (
               <PostComponent key={post?._id} post={post} />
             ))}
         </div>
