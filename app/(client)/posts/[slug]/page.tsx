@@ -194,7 +194,7 @@ const ptComponents = {
         ? "noreferrer noopener"
         : undefined;
       if(isInternalLink && hostname == 'localhost') {
-        value.href = `${HOSTNAME}/${value.href.split("/")[3]}`
+        value.href = `https://next-sanity-blog-amber.vercel.app/${value.href.split("/")[3]}`
       }
       
       return (
