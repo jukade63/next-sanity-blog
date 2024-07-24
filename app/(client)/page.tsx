@@ -65,13 +65,12 @@ export default async function Home({
 
       <div className="text-center mt-6 p-4">
         <h1 className={`text-3xl font-bold ${lora.className}`}>
-          Hi, Welcome to Data Blog!
+          Hi, Welcome to Data Digit!
         </h1>
         <p
           className={`text-gray-600 dark:text-gray-300 text-semibold tracking-wide mt-2`}
         >
-          Data is valuable you know it, but how? Let's explore through these
-          articles.
+          Data Digit is a blog that focuses on data and coding.
         </p>
       </div>
       <Header />
