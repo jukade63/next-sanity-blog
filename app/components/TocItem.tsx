@@ -1,6 +1,7 @@
 "use client";
 import React, { useState } from "react";
 import { cn, slugify } from "../utils/helpers";
+import Link from "next/link";
 
 interface TocItem {
   text: string;
@@ -39,12 +40,12 @@ export const TocItem = ({ item, level }: TocItemProps) => {
           </span>
         </span>
       )}
-      <a
+      <Link
         href={`#${slugify(item.text)}`}
         className="text-gray-600 dark:text-gray-400 hover:underline text-sm"
       >
         {item.text}
-      </a>
+      </Link>
       {isOpen && hasChildren && (
         <ul className="mt-1">
           {item.children.map((child) => (

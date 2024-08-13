@@ -16,7 +16,7 @@ const Toc = ({ headings }: any) => {
   
 
   return (
-    <div className="border rounded-sm px-4 pb-2 border-gray-400 dark:border-gray-200  ">
+    <div className="border rounded-sm px-4 pb-2 border-gray-400 dark:border-gray-200 w-full ">
       <h2 className={`text-lg font-bold p-2 mb-2 text-center ${roboto.className}`}>
         Table of Contents
       </h2>

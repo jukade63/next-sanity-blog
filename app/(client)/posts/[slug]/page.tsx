@@ -81,16 +81,6 @@ export async function generateMetadata({
       locale: "en_US",
       url: `https://next-cms-blog-ce.vercel.app/${params.slug}`,
       siteName: "Data Digit",
-      images: [
-        // {
-        //   url: post.image,
-        // }
-        // {
-        //   url: urlForImage(post?.body?.find((b: any) => b._type === "image")).width(1200).height(630).url(),
-        //   width: 1200,
-        //   height: 630,
-        // },
-      ],
     },
   };
 }
@@ -118,7 +108,11 @@ const SinglePost = async ({ params, searchParams }: Params) => {
         height={300}
         className="w-full h-[300px] object-cover object-center rounded-md"
       ></Image>
-      <h1 className={`${roboto.className} text-3xl text-center font-bold mt-10`}>{post?.title}</h1>
+      <h1
+        className={`${roboto.className} text-3xl text-center font-bold mt-10`}
+      >
+        {post?.title}
+      </h1>
       <p className="text-sm text-gray-500 text-center mt-2">
         {formatDistanceToNow(post?.publishedAt)} ago
       </p>
@@ -126,12 +120,12 @@ const SinglePost = async ({ params, searchParams }: Params) => {
       <p className="mt-5 text-gray-600 dark:text-gray-300">{post.excerpt}</p>
       <div className="flex flex-col-reverse lg:flex-row lg:gap-5 items-center lg:items-start">
         <div
-          className="mt-14 text-justify max-w-4xl prose-headings:my-3 prose-heading:text-2xl prose-p:mb-3
+          className="mt-14 text-justify max-w-3xl prose-headings:my-3 prose-heading:text-2xl prose-p:mb-3
                         prose-p:leading-7 prose-li:list-disc prose-li:leading-7 prose-li:ml-4"
         >
           <PortableText value={post?.body} components={ptComponents} />
         </div>
-        <div className="mt-5 flex justify-center w-96">
+        <div className="mt-5 flex justify-center w-1/2 lg:w-1/3" >
           <Toc headings={post?.headings} />
         </div>
       </div>
@@ -220,27 +214,41 @@ const ptComponents = {
   },
   block: {
     h2: ({ value }: any) => (
-      <h2 className={`text-3xl ${roboto.className}`}>
+      <h2
+        className={`text-3xl ${roboto.className}`}
+        id={slugify(value.children[0].text)}
+      >
         {value.children[0].text}
       </h2>
     ),
     h3: ({ value }: any) => (
-      <h3 className={`${roboto.className} text-3xl font-bold`}>
+      <h3
+        className={`${roboto.className} text-3xl font-bold`}
+        id={slugify(value.children[0].text)}
+      >
         {value.children[0].text}
       </h3>
     ),
     h4: ({ value }: any) => (
-      <h4 className={`text-2xl font-bold ${roboto.className}`}>
+      <h4
+        className={`text-2xl font-bold ${roboto.className}`}
+        id={slugify(value.children[0].text)}
+      >
         {value.children[0].text}
       </h4>
     ),
     h5: ({ value }: any) => (
-      <h5 className={`text-xl ${roboto.className}`}>
+      <h5
+        className={`text-xl ${roboto.className}`}
+        id={slugify(value.children[0].text)}
+      >
         {value.children[0].text}
       </h5>
     ),
     h6: ({ value }: any) => (
-      <h6 className="text-xl  mb-3">{value.children[0].text}</h6>
+      <h6 className="text-xl  mb-3" id={slugify(value.children[0].text)}>
+        {value.children[0].text}
+      </h6>
     ),
   },
 };
