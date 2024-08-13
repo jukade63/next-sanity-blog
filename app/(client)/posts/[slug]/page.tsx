@@ -12,9 +12,9 @@ import { formatDistanceToNow } from "date-fns";
 import Link from "next/link";
 import CodeBlock from "@/app/components/CodeBlock";
 import { Roboto } from "next/font/google";
-import { HOSTNAME } from "@/app/utils/constants";
+import { DEFAULT_IMAGE_URL, HOSTNAME } from "@/app/utils/constants";
 
-const roboto = Roboto({ subsets: ["latin"], weight: "700" });
+const roboto = Roboto({ subsets: ["latin"], weight: "900" });
 
 interface Params {
   params: {
@@ -108,13 +108,17 @@ const SinglePost = async ({ params, searchParams }: Params) => {
     <div>
       <Navbar hasSearch={false} />
       <Image
-        src={urlForImage(post?.coverImage).url()}
+        src={
+          post.coverImage
+            ? urlForImage(post?.coverImage).url()
+            : DEFAULT_IMAGE_URL
+        }
         alt={post?.title}
         width={1200}
         height={300}
         className="w-full h-[300px] object-cover object-center rounded-md"
       ></Image>
-      <h1 className="text-3xl text-center font-bold mt-10">{post?.title}</h1>
+      <h1 className={`${roboto.className} text-3xl text-center font-bold mt-10`}>{post?.title}</h1>
       <p className="text-sm text-gray-500 text-center mt-2">
         {formatDistanceToNow(post?.publishedAt)} ago
       </p>
@@ -127,13 +131,16 @@ const SinglePost = async ({ params, searchParams }: Params) => {
         >
           <PortableText value={post?.body} components={ptComponents} />
         </div>
-        <div className="mt-5 flex justify-center min-w-28">
+        <div className="mt-5 flex justify-center w-96">
           <Toc headings={post?.headings} />
         </div>
       </div>
       <div className="mt-5">
         {post?.tags?.map((tag) => (
-          <span key={tag?._id} className="mr-2 py-[6px] px-4 rounded-full text-sm bg-sky-200 dark:bg-gray-950 border dark:border-gray-900">
+          <span
+            key={tag?._id}
+            className="mr-2 py-[6px] px-4 rounded-full text-sm bg-sky-200 dark:bg-gray-950 border dark:border-gray-900"
+          >
             {tag.name}
           </span>
         ))}
@@ -188,18 +195,16 @@ const ptComponents = {
   },
   marks: {
     link: ({ children, value }: any) => {
-      const isInternalLink = value?.href?.startsWith("/")
-      const hostname = value.href.split("/")[2]
-      const rel = !isInternalLink
-        ? "noreferrer noopener"
-        : undefined;
-      
-      if(isInternalLink || hostname == 'localhost:3000') {
-        const segments = value.href.split("/")
-        const path = segments.slice(3).join("/")
-        value.href = `${HOSTNAME}/${path}`
+      const isInternalLink = value?.href?.startsWith("/");
+      const hostname = value.href.split("/")[2];
+      const rel = !isInternalLink ? "noreferrer noopener" : undefined;
+
+      if (isInternalLink || hostname == "localhost:3000") {
+        const segments = value.href.split("/");
+        const path = segments.slice(3).join("/");
+        value.href = `${HOSTNAME}/${path}`;
       }
-      
+
       return (
         <Link href={value.href} rel={rel} className="text-amber-600 underline">
           {children}
@@ -215,41 +220,27 @@ const ptComponents = {
   },
   block: {
     h2: ({ value }: any) => (
-      <h2
-        id={slugify(value.children[0].text)}
-        className={`text-3xl ${roboto.className}`}
-      >
+      <h2 className={`text-3xl ${roboto.className}`}>
         {value.children[0].text}
       </h2>
     ),
     h3: ({ value }: any) => (
-      <h3
-        id={slugify(value.children[0].text)}
-        className={`text-3xl font-bold  ${roboto.className}`}
-      >
+      <h3 className={`${roboto.className} text-3xl font-bold`}>
         {value.children[0].text}
       </h3>
     ),
     h4: ({ value }: any) => (
-      <h4
-        id={slugify(value.children[0].text)}
-        className={`text-2xl  ${roboto.className}`}
-      >
+      <h4 className={`text-2xl font-bold ${roboto.className}`}>
         {value.children[0].text}
       </h4>
     ),
     h5: ({ value }: any) => (
-      <h5
-        id={slugify(value.children[0].text)}
-        className={`text-xl ${roboto.className}`}
-      >
+      <h5 className={`text-xl ${roboto.className}`}>
         {value.children[0].text}
       </h5>
     ),
     h6: ({ value }: any) => (
-      <h6 id={slugify(value.children[0].text)} className="text-xl  mb-3">
-        {value.children[0].text}
-      </h6>
+      <h6 className="text-xl  mb-3">{value.children[0].text}</h6>
     ),
   },
 };
